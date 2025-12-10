@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoreo Power BI</title>
+    <meta http-equiv="refresh" content="1800"> <!-- Refresca todo cada 30 min -->
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe id="visor"></iframe>
+
+    <script>
+        const reportes = [
+    "https://app.powerbi.com/view?r=eyJrIjoiODg2MjcwMWQtMDE3Yy00MjUwLWFhYzktYmIwMDY4ZGRmMDdjIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9&pageName=ReportSection",
+    "https://app.powerbi.com/view?r=eyJrIjoiODg2MjcwMWQtMDE3Yy00MjUwLWFhYzktYmIwMDY4ZGRmMDdjIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9&pageName=ReportSection",
+    "https://app.powerbi.com/view?r=eyJrIjoiNmMzMDA1ZjYtODI4ZC00YWU5LTk2OGItMjllYzBiYzcxMTMzIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9"
+    ];
+
+        let indice = 0;
+        const tiempo = 10000; // 10 segundos
+
+        function cambiarReporte() {
+            document.getElementById("visor").src = reportes[indice];
+            indice++;
+            if (indice >= reportes.length) {
+                indice = 0;
+            }
+            setTimeout(rotarPanel, tiempoDeRotacion);
+        }
+        setTimeout(rotarPanel, 1000);
+    </script>
+
+</body>
+</html>
