@@ -25,22 +25,29 @@
 
     <script>
         const panelUrls = [
-            "https://app.powerbi.com/view?r=eyJrIjoiNmMzMDA1ZjYtODI4ZC00YWU5LTk2OGItMjllYzBiYzcxMTMzIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9",
-            "https://app.powerbi.com/view?r=eyJrIjoiMWEzZjNmYTEtYmU3NS00OTVjLTgzZDYtZThhMDJhODdlZmNiIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9",
-            "https://app.powerbi.com/view?r=eyJrIjoiODg2MjcwMWQtMDE3Yy00MjUwLWFhYzktYmIwMDY4ZGRmMDdjIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9"
-        ];
-        // Tiempo en milisegundos para la rotación (10 segundos)
-        const rotationTime = 10000;
-        // ------------------------------------
+            "https://app.powerbi.com/view?r=eyJrIjoiODg2MjcwMWQtMDE3Yy00MjUwLWFhYzktYmIwMDY4ZGRmMDdjIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9&pageName=ReportSection",
+            "https://app.powerbi.com/view?r=eyJrIjoiYzI1ZGE1NWMtZTdlMS00MDBjLWE1MjItMWFhNmMyOTExNzI2IiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9&pageName=ReportSection",
+            "https://app.powerbi.com/view?r=eyJrIjoiNTZkZDYwZDctOTZhZS00ODc2LTk1OTAtNGRlZDIwNjUyOTYwIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9",
+            "https://app.powerbi.com/view?r=eyJrIjoiMGM1YTQxYjYtNmJlZi00YWMyLWIzODktNWI0ZWUxYmQ2MTAzIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9"
+        ]; 
+        // Tiempo en milisegundos para la rotación (20 segundos)
+        const rotationTime = 20000;
 
         let currentIndex = 0;
         const iframe = document.getElementById('powerbi-iframe');
+        let rotationInterval;
+        let isPaused = false;
+
+        function startRotation() {
+            if (rotationInterval) {
+                clearInterval(rotationInterval);
+            }
+            rotationInterval = setInterval(rotatePanel, rotationTime);
+            isPaused = false;
+        }
 
         function rotatePanel() {
-            // Establece el 'src' del iframe al URL actual en el array
             iframe.src = panelUrls[currentIndex];
-
-            // Incrementa el índice para el siguiente panel
             currentIndex++;
 
             // Si llegamos al final del array, reiniciamos a 0 para el ciclo
@@ -49,11 +56,23 @@
             }
         }
 
+        function toggleRotation() {
+            if (isPaused) {
+                startRotation();
+            } else {
+                clearInterval(rotationInterval);
+                isPaused = true
+            }
+        }
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter" || event.keyCode === 13) {
+                toggleRotation();
+            }
+        });
+
         // 1. Llama a la función de inmediato para mostrar el primer panel
         rotatePanel();
-
-        // 2. Configura un intervalo para llamar a la función cada 10 segundos
-        setInterval(rotatePanel, rotationTime);
+        startRotation();
 
     </script>
 </body>
