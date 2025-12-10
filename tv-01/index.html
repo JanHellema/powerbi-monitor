@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotación de Paneles Power BI - TV [1]</title>
+    <style>
+        /* Ocupa toda la pantalla, importante para SmartTVs */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Evita barras de desplazamiento */
+        }
+        #powerbi-iframe {
+            width: 100%;
+            height: 100%;
+            border: none; /* Elimina el borde del iframe */
+        }
+    </style>
+</head>
+<body>
+
+    <iframe id="powerbi-iframe" src="" allowfullscreen="true"></iframe>
+
+    <script>
+        const panelUrls = [
+            "https://app.powerbi.com/view?r=eyJrIjoiNmMzMDA1ZjYtODI4ZC00YWU5LTk2OGItMjllYzBiYzcxMTMzIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9",
+            "https://app.powerbi.com/view?r=eyJrIjoiMWEzZjNmYTEtYmU3NS00OTVjLTgzZDYtZThhMDJhODdlZmNiIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9",
+            "https://app.powerbi.com/view?r=eyJrIjoiODg2MjcwMWQtMDE3Yy00MjUwLWFhYzktYmIwMDY4ZGRmMDdjIiwidCI6ImRhYjVmYjIxLWFiOGEtNGEwNC05YjM2LTRmZjg3ZGZjNjU4NiJ9"
+        ];
+        // Tiempo en milisegundos para la rotación (10 segundos)
+        const rotationTime = 10000;
+        // ------------------------------------
+
+        let currentIndex = 0;
+        const iframe = document.getElementById('powerbi-iframe');
+
+        function rotatePanel() {
+            // Establece el 'src' del iframe al URL actual en el array
+            iframe.src = panelUrls[currentIndex];
+
+            // Incrementa el índice para el siguiente panel
+            currentIndex++;
+
+            // Si llegamos al final del array, reiniciamos a 0 para el ciclo
+            if (currentIndex >= panelUrls.length) {
+                currentIndex = 0;
+            }
+        }
+
+        // 1. Llama a la función de inmediato para mostrar el primer panel
+        rotatePanel();
+
+        // 2. Configura un intervalo para llamar a la función cada 10 segundos
+        setInterval(rotatePanel, rotationTime);
+
+    </script>
+</body>
+</html>
